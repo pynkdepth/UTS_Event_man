@@ -1,0 +1,16 @@
+// Prisma CLI v7 config file.
+// Use plain JS export to avoid TS type resolution issues.
+
+const config = {
+  prisma: {
+    datasources: {
+      db: {
+        url: process.env.DATABASE_URL,
+      },
+    },
+  },
+};
+
+export default config;
+
+

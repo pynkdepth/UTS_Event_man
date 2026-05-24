@@ -1,0 +1,318 @@
+{
+  "info": {
+    "name": "Invofest API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// auto save token after login",
+          "if (pm.request.url.toString().includes('/auth/login')) {",
+          "  const json = pm.response.json();",
+          "  pm.environment.set('token', json.token);",
+          "}"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "host",
+      "value": "localhost:3000"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@invofest_harkatnegeri.com\",\n  \"password\": \"123\"\n}"
+            },
+            "url": {
+              "raw": "{{host}}/auth/login",
+              "host": ["{{host}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Competition",
+      "item": [
+        {
+          "name": "Regist Competition – Individu SMA",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "competition", "value": "POSTER" },
+                { "key": "participantType", "value": "INDIVIDU" },
+                { "key": "degree", "value": "SMA" },
+                { "key": "email", "value": "siswa.poster@smk.id" },
+                { "key": "fullName", "value": "Budi Santoso" },
+                { "key": "school", "value": "SMK N 1 Jogja" },
+                {
+                  "key": "memberCard",
+                  "type": "file",
+                  "src": "kartu_budi.pdf"
+                },
+                { "key": "payment", "type": "file", "src": "bayar.jpg" },
+                { "key": "igFollow", "type": "file", "src": "follow_ig.jpg" }
+              ]
+            },
+            "url": {
+              "raw": "{{host}}/competition/regist",
+              "host": ["{{host}}"],
+              "path": ["competition", "regist"]
+            }
+          }
+        },
+        {
+          "name": "Regist Competition – Team MAHASISWA",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "competition", "value": "UIUX" },
+                { "key": "participantType", "value": "TEAM" },
+                { "key": "degree", "value": "MAHASISWA" },
+                { "key": "email", "value": "timuiux@univ.ac.id" },
+                { "key": "teamName", "value": "DesignSquad" },
+                { "key": "school", "value": "UNIV JAYA" },
+                { "key": "leaderName", "value": "Andi Wijaya" },
+                { "key": "memberCard", "type": "file", "src": "kartu_tim.pdf" },
+                { "key": "payment", "type": "file", "src": "bayar_uiux.jpg" },
+                { "key": "igFollow", "type": "file", "src": "ig_uiux.jpg" }
+              ]
+            },
+            "url": {
+              "raw": "{{host}}/competition/regist",
+              "host": ["{{host}}"],
+              "path": ["competition", "regist"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Event",
+      "item": [
+        {
+          "name": "Seminar",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "email", "value": "jono.seminar@gmail.com" },
+                { "key": "fullName", "value": "Jono Sembodo" },
+                { "key": "category", "value": "UMUM" },
+                { "key": "whatsapp", "value": "6281212345678" },
+                { "key": "institution", "value": "PT. Berkah" },
+                {
+                  "key": "payment",
+                  "type": "file",
+                  "src": "bayar_seminar.jpg"
+                },
+                { "key": "igFollow", "type": "file", "src": "ig_seminar.jpg" }
+              ]
+            },
+            "url": {
+              "raw": "{{host}}/event/seminar",
+              "host": ["{{host}}"],
+              "path": ["event", "seminar"]
+            }
+          }
+        },
+        {
+          "name": "Workshop",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "email", "value": "mhs@univ.ac.id" },
+                { "key": "fullName", "value": "Ani Wijaya" },
+                { "key": "workshop", "value": "CYBER_SECURITY" },
+                { "key": "category", "value": "MAHASISWA" },
+                { "key": "whatsapp", "value": "628991234567" },
+                { "key": "institution", "value": "UNIV JAYA" },
+                {
+                  "key": "payment",
+                  "type": "file",
+                  "src": "bayar_workshop.jpg"
+                },
+                { "key": "igFollow", "type": "file", "src": "ig_workshop.jpg" }
+              ]
+            },
+            "url": {
+              "raw": "{{host}}/event/workshop",
+              "host": ["{{host}}"],
+              "path": ["event", "workshop"]
+            }
+          }
+        },
+        {
+          "name": "Talkshow",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "email", "value": "talk@visitor.com" },
+                { "key": "fullName", "value": "Bambang Talk" },
+                { "key": "category", "value": "UMUM" },
+                { "key": "whatsapp", "value": "628771112222" },
+                { "key": "institution", "value": "Koperasi Sejahtera" },
+                {
+                  "key": "payment",
+                  "type": "file",
+                  "src": "bayar_talkshow.jpg"
+                },
+                { "key": "igFollow", "type": "file", "src": "ig_talkshow.jpg" }
+              ]
+            },
+            "url": {
+              "raw": "{{host}}/event/talkshow",
+              "host": ["{{host}}"],
+              "path": ["event", "talkshow"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "List Competition",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{host}}/admin/participants?competition=POSTER&degree=SMA&participantType=INDIVIDU",
+              "host": ["{{host}}"],
+              "path": ["admin", "participants"],
+              "query": [
+                {
+                  "key": "competition",
+                  "value": "POSTER",
+                  "description": "POSTER / UIUX / WEB"
+                },
+                {
+                  "key": "degree",
+                  "value": "SMA",
+                  "description": "SMA / MAHASISWA"
+                },
+                {
+                  "key": "participantType",
+                  "value": "INDIVIDU",
+                  "description": "INDIVIDU / TEAM"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Seminar",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{host}}/admin/seminar",
+              "host": ["{{host}}"],
+              "path": ["admin", "seminar"]
+            }
+          }
+        },
+        {
+          "name": "List Workshop",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{host}}/admin/workshop",
+              "host": ["{{host}}"],
+              "path": ["admin", "workshop"]
+            }
+          }
+        },
+        {
+          "name": "List Talkshow",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{host}}/admin/talkshow",
+              "host": ["{{host}}"],
+              "path": ["admin", "talkshow"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

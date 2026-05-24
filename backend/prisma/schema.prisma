@@ -1,0 +1,166 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")   // <-- TAMBAHKAN BARIS INI
+  directUrl = env("DIRECT_URL")     // <-- TAMBAHKAN BARIS INI JUGA
+}
+
+
+
+
+
+
+model Admin {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  nim      String @unique  // <-- TAMBAHKAN BARIS INI!
+  password String
+}
+
+model CompetitionRegistration {
+  id              Int             @id @default(autoincrement())
+  createdAt       DateTime        @default(now())
+  competition     CompetitionType
+  participantType ParticipantType
+  degree          Degree
+  email           String
+  fullName        String?
+  teamName        String?
+  school          String
+  leaderName      String?
+  whatsapp        String
+  memberCardUrl   String
+  paymentUrl      String
+  igFollowUrl     String
+  teamMembers     TeamMember[]
+}
+
+model TeamMember {
+  id                        Int                      @id @default(autoincrement())
+  competitionRegistrationId Int
+  competitionRegistration   CompetitionRegistration  @relation(fields: [competitionRegistrationId], references: [id], onDelete: Cascade)
+  name                      String
+}
+
+enum CompetitionType {
+  POSTER
+  UIUX
+  WEB
+}
+
+enum ParticipantType {
+  INDIVIDU
+  TEAM
+}
+
+enum Degree {
+  SMA
+  MAHASISWA
+}
+
+// Events (registrations)
+model SeminarRegistration {
+
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now())
+  email         String
+  fullName      String
+  category      Category  // umum / mahasiswa
+  whatsapp      String
+  institution   String    // asal instansi
+  paymentUrl    String    // cloudinary
+  igFollowUrl   String    // cloudinary
+  // Kolom baru
+  idNumber    String?   
+  idCardUrl   String?   
+  verified    Boolean   @default(false) 
+}
+
+model WorkshopRegistration {
+  id              Int            @id @default(autoincrement())
+  createdAt       DateTime       @default(now())
+  email           String
+  fullName        String
+  workshop        WorkshopChoice
+  category        Category
+  whatsapp        String
+  institution     String
+  paymentUrl      String
+  igFollowUrl     String
+  // Kolom baru
+  idNumber        String?
+  idCardUrl       String?
+  verified        Boolean        @default(false)
+}
+
+model TalkshowRegistration {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now())
+  email         String
+  fullName      String
+  category      Category
+  whatsapp      String
+  institution   String
+  paymentUrl    String
+  igFollowUrl   String
+  // Kolom baru
+  idNumber        String?
+  idCardUrl       String?
+  verified        Boolean        @default(false)
+}
+
+enum Category {
+  UMUM
+  MAHASISWA
+}
+
+enum WorkshopChoice {
+  CYBER_SECURITY
+  ARTIFICIAL_INTELLIGENCE
+  MOBILE_DEV
+}
+
+// ===============================
+// Admin Event CRUD (CategoryEvent, Pembicara, Event)
+// ===============================
+
+model CategoryEvent {
+  id        Int     @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+
+  events Event[]
+}
+
+model Pembicara {
+  id        Int      @id @default(autoincrement())
+  nama      String
+  jabatan   String?
+  fotoUrl   String?
+  bio       String?
+  createdAt DateTime @default(now())
+
+  events Event[]
+}
+
+model Event {
+  id              Int @id @default(autoincrement())
+  judul           String
+  deskripsi       String?
+  tanggalWaktu    DateTime?
+  lokasi          String?
+  createdAt       DateTime @default(now())
+
+  categoryEventId Int
+  pembicaraId      Int
+
+  categoryEvent CategoryEvent @relation(fields: [categoryEventId], references: [id], onDelete: Restrict)
+  pembicara      Pembicara     @relation(fields: [pembicaraId], references: [id], onDelete: Restrict)
+
+  @@index([categoryEventId])
+  @@index([pembicaraId])
+}
+
