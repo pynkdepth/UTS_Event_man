@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { adminAPI } from "@/services/api";
+import { } from "@/services/api";
 import { useAuth } from "@/hooks/useAuth";
 
 type CategoryEvent = {
@@ -8,7 +8,7 @@ type CategoryEvent = {
   createdAt?: string;
 };
 
-type ApiResponse<T> = T | { message?: string };
+
 
 export const CategoryEventsPage = () => {
   const { token, isHydrated } = useAuth();
