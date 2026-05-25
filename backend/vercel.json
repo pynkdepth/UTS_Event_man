@@ -2,14 +2,20 @@
   "version": 2,
   "builds": [
     {
-      "src": "src/index.ts",
+      "src": "index.ts",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "src/index.ts"
+      "headers": {
+        "Access-Control-Allow-Origin": "https://uts-event-man.vercel.app",
+        "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Credentials": "true"
+      },
+      "dest": "index.ts"
     }
   ]
 }
