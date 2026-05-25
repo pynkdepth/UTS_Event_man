@@ -25,9 +25,8 @@ export const loginWithNim = async (req: Request, res: Response): Promise<void> =
     return;
   }
 
-  // Ambil admin email pertama yang ada.
-  // Ini agar tidak perlu tahu email admin spesifik dari user.
-  const admin = await prisma.admin.findFirst();
+  // Ambil admin berdasarkan NIM agar tidak salah mengambil row admin lain.
+  const admin = await prisma.admin.findUnique({ where: { nim: ADMIN_NIM } });
   if (!admin) {
     res.status(503).json({ message: "Admin not configured" });
     return;
