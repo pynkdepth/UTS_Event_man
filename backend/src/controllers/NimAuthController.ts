@@ -38,6 +38,7 @@ export const loginWithNim = async (req: Request, res: Response): Promise<void> =
   const okPlain = admin.password === password;
 
   if (!okBcrypt && !okPlain) {
+
     res.status(401).json({ message: "Invalid credential" });
     return;
   }
