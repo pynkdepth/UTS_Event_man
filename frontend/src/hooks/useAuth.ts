@@ -29,9 +29,9 @@ const handleResponse = async (res: Response) => {
   }
 };
 
-// Manual admin credentials (sesuai task)
-const ADMIN_NIM = "24090034";
-const ADMIN_PASSWORD = "admin123";
+// (removed) hardcoded admin credential check on client.
+// Login uses input user (nim/password) and backend validates it.
+
 
 
 export const useAuth = (): AuthContextType => {
@@ -54,17 +54,18 @@ export const useAuth = (): AuthContextType => {
       setIsLoading(true);
       setError(null);
       try {
-        // Task requirement: manual login using NIM + Password.
-        if (emailOrNim.trim() !== ADMIN_NIM || password !== ADMIN_PASSWORD) {
-          throw new Error("Invalid NIM or password");
+        const nimTrimmed = emailOrNim.trim();
+        if (!nimTrimmed || !password) {
+          throw new Error("NIM dan password wajib diisi");
         }
 
         // Backend: endpoint khusus NIM login untuk mengembalikan JWT.
         const response = await fetch(`${API_BASE_URL}/nim-auth/nim-login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ nim: ADMIN_NIM, password }),
+          body: JSON.stringify({ nim: nimTrimmed, password }),
         }).then(handleResponse);
+
 
         if (response && typeof response === "object" && "token" in response) {
           const loginResponse = response as LoginResponse;
