@@ -5,9 +5,11 @@ dotenv.config();
 
 const allowedOrigins = [
   process.env.FRONTEND_URL,
+  'https://uts-event-man.vercel.app',
   'http://localhost:5173',
   'http://localhost:5175',
 ].filter(Boolean) as string[];
+
 
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
