@@ -22,7 +22,7 @@ export const CategoryEventsPage = () => {
     if (!token) return;
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:3005/admin-crud/category-events`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/admin-crud/category-events`, {
         headers: { Authorization: `Bearer ${token}` },
       }).then((r) => r.json());
       setItems(res);
@@ -43,7 +43,7 @@ export const CategoryEventsPage = () => {
 
     if (!name.trim()) return;
 
-    const base = `http://localhost:3005/admin-crud/category-events`;
+    const base = `${import.meta.env.VITE_API_URL}/admin-crud/category-events`;
     const url = editingId ? `${base}/${editingId}` : base;
     const method = editingId ? "PUT" : "POST";
 
@@ -72,7 +72,7 @@ export const CategoryEventsPage = () => {
     if (!token) return;
     if (!confirm("Hapus category event ini?")) return;
 
-    await fetch(`http://localhost:3005/admin-crud/category-events/${id}`, {
+    await fetch(`${import.meta.env.VITE_API_URL}/admin-crud/category-events/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     }).then(async (r) => {

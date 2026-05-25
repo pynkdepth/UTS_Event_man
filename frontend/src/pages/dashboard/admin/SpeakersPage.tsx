@@ -25,7 +25,7 @@ export const SpeakersPage = () => {
     if (!token) return;
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:3005/admin-crud/speakers`, {
+      const res = await fetch(`https://uts-event-man-sjc8.vercel.app/admin-crud/speakers`, {
         headers: { Authorization: `Bearer ${token}` },
       }).then((r) => r.json());
       setItems(res);
@@ -45,7 +45,7 @@ export const SpeakersPage = () => {
     if (!token) return;
     if (!nama.trim()) return;
 
-    const base = `http://localhost:3005/admin-crud/speakers`;
+    const base = `${import.meta.env.VITE_API_URL}/admin-crud/speakers`;
     const url = editingId ? `${base}/${editingId}` : base;
     const method = editingId ? "PUT" : "POST";
 
@@ -85,7 +85,7 @@ export const SpeakersPage = () => {
     if (!token) return;
     if (!confirm("Hapus pembicara ini?")) return;
 
-    await fetch(`http://localhost:3005/admin-crud/speakers/${id}`, {
+    await fetch(`${import.meta.env.VITE_API_URL}/admin-crud/speakers/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     }).then(async (r) => {

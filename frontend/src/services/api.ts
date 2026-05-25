@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:3005";
+const API_BASE_URL = "" + import.meta.env.VITE_API_URL;
 
 const handleResponse = async (res: Response) => {
   const text = await res.text(); // baca sekali

@@ -37,13 +37,13 @@ export const EventsPage = () => {
     setLoading(true);
     try {
       const [ev, cats, sp] = await Promise.all([
-        fetch(`http://localhost:3005/admin-crud/events`, {
+        fetch(`https://uts-event-man-sjc8.vercel.app/admin-crud/events`, {
           headers: { Authorization: `Bearer ${token}` },
         }).then((r) => r.json()),
-        fetch(`http://localhost:3005/admin-crud/category-events`, {
+        fetch(`https://uts-event-man-sjc8.vercel.app/admin-crud/category-events`, {
           headers: { Authorization: `Bearer ${token}` },
         }).then((r) => r.json()),
-        fetch(`http://localhost:3005/admin-crud/speakers`, {
+        fetch(`https://uts-event-man-sjc8.vercel.app/admin-crud/speakers`, {
           headers: { Authorization: `Bearer ${token}` },
         }).then((r) => r.json()),
       ]);
@@ -79,7 +79,7 @@ export const EventsPage = () => {
     if (!judul.trim()) return;
     if (categoryEventId === "" || pembicaraId === "") return;
 
-    const base = `http://localhost:3005/admin-crud/events`;
+    const base = `${import.meta.env.VITE_API_URL}/admin-crud/events`;
     const url = editingId ? `${base}/${editingId}` : base;
     const method = editingId ? "PUT" : "POST";
 
@@ -119,7 +119,7 @@ export const EventsPage = () => {
     if (!token) return;
     if (!confirm("Hapus event ini?")) return;
 
-    await fetch(`http://localhost:3005/admin-crud/events/${id}`, {
+    await fetch(`https://uts-event-man-sjc8.vercel.app/admin-crud/events/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     }).then(async (r) => {
